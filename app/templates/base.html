@@ -1,0 +1,12 @@
+<!doctype html>
+        {% if title %}
+            <title>{{ title }}</title>
+        {% else %}
+            <title>Welcome to Hetaira</title>
+        {% endif %}
+    <body>
+
+        {% block content %}{% endblock %}
+
+    </body>
+</html>
