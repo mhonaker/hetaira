@@ -1,2 +1,4 @@
 hetvenv/
 instance/
+__pycache__
+app/__pycache
