@@ -78,7 +78,7 @@ def fileproc(file, desctype):
         data = read_csv(file, sep=sep.delimiter)
         ids = data.columns.values
         descriptors = None
-    
+
     return [ids, data, descriptors]
 
 def excel_fileproc(file):
@@ -116,7 +116,7 @@ def get_pubchem_descriptors(cids):
     url = PUBCHEM_URL_START + ','.join(cids) + PUBCHEM_URL_END
     r = requests.get(url)
     if r.status_code != 200:
-        return 'error'
+        raise PubChemError
     else:
         fprints = [b64tobitstring(fprint[CID_FP])
                    for fprint in r.json()['PropertyTable']['Properties']]
@@ -135,15 +135,13 @@ def b64tobitstring(b64):
 
 def bitarray(fprints):
     """
-    Converts an array of bitstings into an array of bit arrays.
+    Converts an array of bitsrings into an array of bit arrays.
     """
 
     descriptors = np.array([[int(i) for i in fprint] for fprint in fprints])
-    try:
-        descriptors.shape[1]
-        return descriptors
-    except IndexError:
-        return 'error'
+    # see if bitstrings are equal length, throws IndexError if not equal
+    descriptors.shape[1]
+    return descriptors
 
 
 class Promiscuity:
@@ -272,4 +270,11 @@ class Promiscuity:
                        for i in range(len(self.items))]
         return results
         
+class Error(Exception):
+    """Base class for some special exception in this module."""
 
+class ArrayLengthError(Error):
+    """Exception raised for errors in unequal bitstring lengths."""
+
+class PubChemError(Error):
+    """Exception raised to catch Pubchem CID or URL problems."""

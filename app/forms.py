@@ -4,4 +4,5 @@ from flask_wtf.file import FileAllowed, FileRequired
 
 class DataUpload(Form):
     datafile = FileField('your data', validators=[
-        FileAllowed(['csv','tsv','txt','xlsx'], 'Bad filetype!')])
+        FileAllowed(['csv','tsv','txt','xlsx'], 'Bad filetype!'),
+        FileRequired('You must upload a data file.')])

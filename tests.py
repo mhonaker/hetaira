@@ -2,8 +2,7 @@
 Testing module for hetaira project.
 """
 import unittest
-from app import promiscuity as pr
-#from promiscuity import Promiscuity, dataproc, get_pubchem_descriptors, bitarray
+from app.promiscuity import Promiscuity, dataproc, get_pubchem_descriptors, bitarray, PubChemError
 from numpy import isnan
 
 class TestCase(unittest.TestCase):
@@ -11,17 +10,17 @@ class TestCase(unittest.TestCase):
 
     def setUp(self):
         ids = ['id1', 'id2']
-        self.p1 = pr.Promiscuity(ids, [[1,1], [1,1]], [[1,1,1,1],[1,1,0,0]])
-        self.p2 = pr.Promiscuity(ids, [[1,1], [1,1]], [[1,1,1,1],[0,0,0,0]])
-        self.p3 = pr.Promiscuity(ids, [[1,1], [1,1]], [[1,1,1,1],[1,1,1,1]])
-        self.p4 = pr.Promiscuity(ids, [[1,1], [1,1]])
+        self.p1 = Promiscuity(ids, [[1,1], [1,1]], [[1,1,1,1],[1,1,0,0]])
+        self.p2 = Promiscuity(ids, [[1,1], [1,1]], [[1,1,1,1],[0,0,0,0]])
+        self.p3 = Promiscuity(ids, [[1,1], [1,1]], [[1,1,1,1],[1,1,1,1]])
+        self.p4 = Promiscuity(ids, [[1,1], [1,1]])
         
-        testdata1 = pr.dataproc('testdata/testdata.csv')
-        self.p5 = pr.Promiscuity(testdata1[0], testdata1[1], testdata1[2])
-        testdata2 = pr.dataproc('testdata/testdata.tsv')
-        self.p6 = pr.Promiscuity(testdata2[0], testdata2[1], testdata2[2])
-        testdata3 = pr.dataproc('testdata/testdata.xlsx')
-        self.p7 = pr.Promiscuity(testdata3[0], testdata3[1], testdata3[2])
+        testdata1 = dataproc('testdata/testdata.csv')
+        self.p5 = Promiscuity(testdata1[0], testdata1[1], testdata1[2])
+        testdata2 = dataproc('testdata/testdata.tsv')
+        self.p6 = Promiscuity(testdata2[0], testdata2[1], testdata2[2])
+        testdata3 = dataproc('testdata/testdata.xlsx')
+        self.p7 = Promiscuity(testdata3[0], testdata3[1], testdata3[2])
 
     def test_avg_dists(self):
         self.assertEqual(sum(self.p1.avg_dists), sum([0.5,0.5]))
@@ -58,11 +57,11 @@ class TestCase(unittest.TestCase):
         self.assertEqual(round(self.p7.results()['3A4']['J'], 4), 0.7775)
 
     def test_get_pubchem_descriptors(self):
-        self.assertEqual(pr.get_pubchem_descriptors(['1']).shape, (1,881))
-        self.assertEqual(pr.get_pubchem_descriptors(['a']), 'error')
+        self.assertEqual(get_pubchem_descriptors(['1']).shape, (1,881))
+        self.assertRaises(PubChemError, get_pubchem_descriptors, ['a'])
     
     def test_bitarray(self):
-        self.assertEqual(pr.bitarray([[1,1],[1]]), 'error')
+        self.assertRaises(IndexError, bitarray,[[1,1],[1]])
         
 
 

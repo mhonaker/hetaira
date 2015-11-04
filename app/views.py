@@ -17,19 +17,21 @@ def index():
         # make a unique and safe filename
         filename = str(uuid4()) + secure_filename(form.datafile.data.filename)
         form.datafile.data.save(os.path.join(app.config['UPLOADS'], filename))
-        results = calculate_results(os.path.join(app.config['UPLOADS'], filename))
+        #results = calculate_results(os.path.join(app.config['UPLOADS'], filename))
+        return redirect(url_for('results'))
 
-    else:
-        filename = 'blah'
-        results = {'results': 'arrrrg', 'dset': 'arrrg2'} 
-        dset = 'blah'
     return render_template('index.html',
                            form=form,
-                           filename=filename,
-                           results=results['results'],
-                           dset=results['dset'])
-
+                           filename=filename])
 @app.route('/results')
 def results():
-    pass
+    # now I will have a specific results page....see also template
+    #results = calculate_results(os.path.join(app.config['UPLOADS'], filename))
+    return "some results"
+    
+    #return render_template('results.html',
+     #                      results=results['results']
+      #                     dset=results['dset'])
+    
+    
     
