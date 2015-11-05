@@ -2,7 +2,7 @@
 Testing module for hetaira project.
 """
 import unittest
-from app.promiscuity import Promiscuity, dataproc, get_pubchem_descriptors, bitarray, PubChemError
+from app.promiscuity import Promiscuity, dataproc, get_pubchem_descriptors, bitarray, PubChemError, BitstringError
 from numpy import isnan
 
 class TestCase(unittest.TestCase):
@@ -21,6 +21,8 @@ class TestCase(unittest.TestCase):
         self.p6 = Promiscuity(testdata2[0], testdata2[1], testdata2[2])
         testdata3 = dataproc('testdata/testdata.xlsx')
         self.p7 = Promiscuity(testdata3[0], testdata3[1], testdata3[2])
+
+        self.p8 = Promiscuity(ids, [[0,0], [1,0.5]], [[1,0,1,0], [1,1,0,0]])
 
     def test_avg_dists(self):
         self.assertEqual(sum(self.p1.avg_dists), sum([0.5,0.5]))
@@ -41,7 +43,7 @@ class TestCase(unittest.TestCase):
     def test_ivalue(self):
         self.assertEqual(self.p1.ivalue(0), 1.0)
         self.assertEqual(self.p1.ivalue(1), 1.0)
-        self.assertEqual(self.p4.ivalue(0), 1.0)
+        self.assertEqual(self.p4.ivalue(0), 1.0) 
 
     def test_jvalue(self):
         self.assertEqual(self.p1.jvalue(0), 1.0)
@@ -55,6 +57,7 @@ class TestCase(unittest.TestCase):
         self.assertEqual(round(self.p5.results()['3A4']['J'], 4), 0.7775)
         self.assertEqual(self.p4.results()['id1']['I'], 1.0)
         self.assertEqual(round(self.p7.results()['3A4']['J'], 4), 0.7775)
+        self.assertEqual(round(self.p8.results()['id1']['I'], 6), 2.1e-5)
 
     def test_get_pubchem_descriptors(self):
         self.assertEqual(get_pubchem_descriptors(['1']).shape, (1,881))
@@ -62,6 +65,7 @@ class TestCase(unittest.TestCase):
     
     def test_bitarray(self):
         self.assertRaises(IndexError, bitarray,[[1,1],[1]])
+        self.assertRaises(BitstringError, bitarray,[[1,0,3],[0,0,1]])
         
 
 

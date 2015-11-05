@@ -137,10 +137,16 @@ def bitarray(fprints):
     """
     Converts an array of bitsrings into an array of bit arrays.
     """
-
+    
     descriptors = np.array([[int(i) for i in fprint] for fprint in fprints])
+    
     # see if bitstrings are equal length, throws IndexError if not equal
     descriptors.shape[1]
+
+    # ensure only 0's and 1's are present in the fingerprints
+    if len(set(descriptors.flatten())) != 2:
+        raise BitstringError
+
     return descriptors
 
 
@@ -154,9 +160,9 @@ class Promiscuity:
     Also available is the overall set dissimiliarity.
     """
 
-    def __init__(self, items, data, descriptors=None):
+    def __init__(self, items, data, descriptors=None, min = 1e-6):
         self.items = items
-        self.data = np.asarray(data)
+        self.data = np.asarray(data) + min
         self.descriptors = descriptors
         if self.descriptors is not None:
             self.d_length = len(descriptors)
@@ -269,11 +275,22 @@ class Promiscuity:
                         'J': 'not determined'}
                        for i in range(len(self.items))]
         return results
+
+    def results_csv(self, results):
+        """
+        Writes a CSV file of results.
+        """
+        header = ['id', 'J', 'I' 'dset']
+        results.append({'dset': self.dset})
+        with open('results.csv', 'w') as csvfile:
+            pass
+
+        
         
 class Error(Exception):
     """Base class for some special exception in this module."""
 
-class ArrayLengthError(Error):
+class BitstringError(Error):
     """Exception raised for errors in unequal bitstring lengths."""
 
 class PubChemError(Error):

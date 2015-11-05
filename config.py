@@ -10,6 +10,7 @@ once instance_relative_config=True in __init__ file.
 """
 
 import os
+import re
 
 # Settings related to Flask and Flask extentions
 # debug is False in instance config
