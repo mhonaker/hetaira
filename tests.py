@@ -2,7 +2,7 @@
 Testing module for hetaira project.
 """
 import unittest
-from app.promiscuity import Promiscuity, dataproc, get_pubchem_descriptors, bitarray, PubChemError, BitstringError
+from app.promiscuity import Promiscuity, get_pubchem_descriptors, bitarray, PubChemError, BitstringError, process_data
 from numpy import isnan
 
 class TestCase(unittest.TestCase):
@@ -15,11 +15,11 @@ class TestCase(unittest.TestCase):
         self.p3 = Promiscuity(ids, [[1,1], [1,1]], [[1,1,1,1],[1,1,1,1]])
         self.p4 = Promiscuity(ids, [[1,1], [1,1]])
         
-        testdata1 = dataproc('testdata/testdata.csv')
+        testdata1 = process_data('testdata/testdata.csv')
         self.p5 = Promiscuity(testdata1[0], testdata1[1], testdata1[2])
-        testdata2 = dataproc('testdata/testdata.tsv')
+        testdata2 = process_data('testdata/testdata.tsv')
         self.p6 = Promiscuity(testdata2[0], testdata2[1], testdata2[2])
-        testdata3 = dataproc('testdata/testdata.xlsx')
+        testdata3 = process_data('testdata/testdata.xlsx')
         self.p7 = Promiscuity(testdata3[0], testdata3[1], testdata3[2])
 
         self.p8 = Promiscuity(ids, [[0,0], [1,0.5]], [[1,0,1,0], [1,1,0,0]])
@@ -66,6 +66,7 @@ class TestCase(unittest.TestCase):
     def test_bitarray(self):
         self.assertRaises(IndexError, bitarray,[[1,1],[1]])
         self.assertRaises(BitstringError, bitarray,[[1,0,3],[0,0,1]])
+        self.assertRaises(ValueError, bitarray, [['a', 0, 0],[1,1,1]])
         
 
 

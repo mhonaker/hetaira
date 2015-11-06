@@ -1,5 +1,5 @@
 """
-General configuration settings for Hetaira app. Generally variables
+Configuration settings for Hetaira app. Generally variables
 that remain static, but might change, so they can all be updated in one
 file if they do.
 
@@ -10,7 +10,6 @@ once instance_relative_config=True in __init__ file.
 """
 
 import os
-import re
 
 # Settings related to Flask and Flask extentions
 # debug is False in instance config

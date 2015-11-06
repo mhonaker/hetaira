@@ -7,17 +7,10 @@ import numpy as np
 import requests
 from config import FP, CID, CID_FP, PUBCHEM_URL_START, PUBCHEM_URL_END, CID_PAD_LEN, DOWNLOADS
 from pandas import read_csv, read_excel
-from csv import Sniffer, DictWriter
+from csv import Sniffer
 from binascii import hexlify
 from base64 import b64decode
 
-
-def make_csv(data):
-    """
-    A helper function to make a csv file of results.
-    """
-    #with open(os.path.join(DOWNLOADS, 'results.csv'))
-    pass
 
 def calculate_results(file):
     """
@@ -29,11 +22,11 @@ def calculate_results(file):
     suitable for use in the view functions.
     """
 
-    data = dataproc(file)
+    data = process_data(file)
     promiscuity = Promiscuity(data[0], data[1], data[2])
-    return {'dset': promiscuity.dset, 'results': promiscuity.results_array()}
+    return promiscuity.hetaira_results()
 
-def dataproc(file):
+def process_data(file):
     """
     Attempts to determine if there are chemical bitstrings in the file
     or PubChem CID identifiers or none. Completes this only on text-type
@@ -48,15 +41,15 @@ def dataproc(file):
         with open(file) as f:
             headers = f.readline().lower()
         if FP in headers:
-            return fileproc(file, FP)
+            return process_csv(file, FP)
         elif CID in headers:
-            return fileproc(file, CID)
+            return process_csv(file, CID)
         else:
-            return fileproc(file, None)
+            return process_csv(file, None)
     except UnicodeDecodeError:
-        return excel_fileproc(file)
+        return process_excel(file)
 
-def fileproc(file, desctype):
+def process_csv(file, desctype):
     """
     Processes text files containing descriptor bitstrings into arrays
     suitable for generating Promiscuity objects.
@@ -69,7 +62,6 @@ def fileproc(file, desctype):
         df = read_csv(file, sep=sep.delimiter, dtype={desctype: object})
         ids = df.columns.values[~(df.columns.values == desctype)]
         data = df[ids]
-
         if desctype == CID:
             descriptors = get_pubchem_descriptors(df[CID])
         else:
@@ -81,7 +73,7 @@ def fileproc(file, desctype):
 
     return [ids, data, descriptors]
 
-def excel_fileproc(file):
+def process_excel(file):
     """
     Processes Excel files into arrays suitable for generating 
     Promiscuity objects.
@@ -89,19 +81,19 @@ def excel_fileproc(file):
     
     df = read_excel(file)
     headers = [header.lower() for header in df.columns.values]
+    
     if not FP or CID in headers:
         ids = df.columns.values
         data = df
         descriptors = None
         return [ids, data, descriptors]
-
     if FP in headers:
         desctype = FP
         descriptors = bitarray(df[desctype])
     elif CID in headers:
         desctype = CID
         descriptors = get_pubchem_descriptors(df[desctype].astype(object))
-
+    
     ids = df.columns.values[~(df.columns.values == desctype)]
     data = df[ids]
     return [ids, data, descriptors]
@@ -128,7 +120,7 @@ def b64tobitstring(b64):
     """
     Converts base64 encoded Pubchem 2D chemical fingerprints into
     bitstrings to be used in the promiscuity class. Also trims the
-    padding off the ends.
+    padding off the end.
     """
     
     return bin(int(hexlify(b64decode(b64)), 16))[2:-CID_PAD_LEN]
@@ -144,7 +136,7 @@ def bitarray(fprints):
     descriptors.shape[1]
 
     # ensure only 0's and 1's are present in the fingerprints
-    if len(set(descriptors.flatten())) != 2:
+    if len(set(descriptors.flatten()).union(set([1,0]))) != 2:
         raise BitstringError
 
     return descriptors
@@ -152,16 +144,16 @@ def bitarray(fprints):
 
 class Promiscuity:
 
-
     """
     A class to compute and return Promiscuity Indicies. Included are
     methods for calculating both the unweighted Promiscuity Index (I),
-    and J, the Promiscuity Index weighted by set dissimiliarity.
+    and J, the Promiscuity Index weighted by dissimiliarity.
     Also available is the overall set dissimiliarity.
     """
 
     def __init__(self, items, data, descriptors=None, min = 1e-6):
         self.items = items
+        # min is the presumeed lower bound of the functional unit
         self.data = np.asarray(data) + min
         self.descriptors = descriptors
         if self.descriptors is not None:
@@ -170,9 +162,6 @@ class Promiscuity:
             self.avg_dists = self.avg_dists()
         else:
             self.dset = 'not determined'
-
-    def __repr__():
-        pass
 
     def jaccard(self, u, v):
         """
@@ -260,38 +249,24 @@ class Promiscuity:
                 results[self.items[i]] = {'I': self.ivalue(i)}
         return results
 
-    def results_array(self):
+    def hetaira_results(self):
         """
-        Constructs an array of results.
+        Returns an array of Promiscuity results suitable for
+        delivery into a Flask Response CSV-like object.
         """
-        
         if self.descriptors is not None:
-            results = [{'id': self.items[i],
-                        'J': self.jvalue(i),
-                        'I': self.ivalue(i)}
-                       for i in range(len(self.items))]
+            results = [[str(self.items[i]), str(self.ivalue(i)),
+                        str(self.jvalue(i))] for i in range(len(self.items))]
         else:
-            results = [{'id': self.items[i], 'I': self.ivalue(i),
-                        'J': 'not determined'}
+            results = [[str(self.items[i]), str(self.ivalue(i))]
                        for i in range(len(self.items))]
+
+        results.append(['dset', str(self.dset)])
         return results
 
-    def results_csv(self, results):
-        """
-        Writes a CSV file of results.
-        """
-        header = ['id', 'J', 'I' 'dset']
-        results.append({'dset': self.dset})
-        with open('results.csv', 'w') as csvfile:
-            pass
-
         
-        
-class Error(Exception):
-    """Base class for some special exception in this module."""
-
-class BitstringError(Error):
+class BitstringError(Exception):
     """Exception raised for errors in unequal bitstring lengths."""
 
-class PubChemError(Error):
+class PubChemError(Exception):
     """Exception raised to catch Pubchem CID or URL problems."""
