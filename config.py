@@ -15,10 +15,6 @@ import os
 # debug is False in instance config
 DEBUG = True
 
-# Place holders for secret instance config settings
-UPLOADS = os.path.join(os.path.dirname(__file__), 'app/uploads')
-DOWNLOADS = os.path.join(os.path.dirname(__file__), 'app/downloads')
-
 # NCBI Pubchem PUG-REST settings
 PUBCHEM_URL_START = 'http://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/'
 PUBCHEM_URL_END = '/property/Fingerprint2D/JSON'

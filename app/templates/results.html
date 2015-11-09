@@ -1,8 +1,38 @@
 {% extends "base.html" %}
 {% block content %}
-{% for result in results %}
-<div><p>{{ result.id }} {{ result.J }} {{ result.I }}</p></div>
-{% endfor %}
-<div><p>dset: {{ dset }}</p></div
-<p><h1>the new shnizznit bra</h1></p>
+<div class="row">
+    <div class="medium-6 medium-centered columns">
+        <table>
+            <thead>
+                <tr>
+                    {% if results[0][2] %}
+                        <th width="200">ID</th>
+                        <th width="200">I <span style="font-weight:normal">(unweighted)</span></th>
+                        <th width="200">J <span style="font-weight:normal">(weighted)</span></th>
+                    {% else %}
+                        <th width="300">ID</th>
+                        <th width="300">I <span style="font-weight:normal">(unweighted)</span></th>
+                    {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                    {% for result in results[:-1] %}
+                    <tr>
+                        <td>{{ result[0] }}</td>
+                        <td>{{ result[1] }}</td>
+                        {% if result[2] is defined %}
+                            <td>{{ result[2] }}</td>
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                <tr height="25"></tr>
+                <tr>
+                    <td><strong>{{ results[-1][0] }}</strong></td>
+                    <td>{{ results[-1][1] }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <p><a class=" button expand" href="{{ url_for('download') }}">Download results as CSV</a></p>
+    </div>
+</div>
 {% endblock %}

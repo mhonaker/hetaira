@@ -5,7 +5,7 @@ calculations for the Hetaira web tool.
 
 import numpy as np
 import requests
-from config import FP, CID, CID_FP, PUBCHEM_URL_START, PUBCHEM_URL_END, CID_PAD_LEN, DOWNLOADS
+from config import FP, CID, CID_FP, PUBCHEM_URL_START, PUBCHEM_URL_END, CID_PAD_LEN
 from pandas import read_csv, read_excel
 from csv import Sniffer
 from binascii import hexlify

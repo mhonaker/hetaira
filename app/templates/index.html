@@ -1,20 +1,91 @@
 {% extends "base.html" %}
 {% block content %}
-<p><h1>Welcome to Hetaira</h1></p>
-<form action="" method="POST" enctype="multipart/form-data">
-    {{ form.hidden_tag() }}
-    <p>
-    Upload your file<br>
-    {{ form.datafile() }}
-    {% for error in form.datafile.errors %}
-    <span style="color: red;">[{{ error }}]</span>
-    {% endfor %}
-    </p>
-    <p><input type="submit" value"Submit"></p>
-</form>
-<!-- for displaying results...{% for result in results %}
-<div><p>{{ result.id }} {{ result.J }}  {{ result.I }}</p></div>
-{% endfor %}
-<div>dset: {{ dset }}</div>  but not used atm...will fix-->
-{% endblock %}
 
+<div class="row">
+    <div class="large-12 columns">
+        <h1>Welcome to Hetaira</h1><h4 class="subheader">Functional Promiscuity Calculator</h4>
+    </div>
+</div>
+<div class="row">
+    <div class="large-4 columns">
+        <div class="panel">
+            <form action="" method="post" enctype="multipart/form-data">
+                {{ form.hidden_tag() }}
+                <div class="row">
+                    <div class="large-12 columns">{{ form.datafile() }}</div>
+                </div>
+                <div class="row">
+                    <div class="large-12 columns">
+                        <label>Lower bound on density
+                            {{ form.min(placeholder="(default = 1e-6)") }}
+                        </label>
+                    </div>
+                </div>
+                <input class="button small " type="submit" value="Submit">
+            </form> 
+        </div>
+    </div>
+    <div class="large-8 columns">
+        <p>
+        <em>Quickstart: </em>Upload a datafile (.csv prefered, .tsv, .txt, and .xlsx ok) and press submit. Your data file <strong>must</strong> contain a header row consisting of unique identifiers. If you would like to use your own fingerprints, that column must be labeled as <code>fingerprint</code>, all fingerprints should be the same length, and must consist only of <code>1</code>'s and <code>0</code>'s. If you'd like us to fetch <a href="ftp://ftp.ncbi.nlm.nih.gov/pubchem/specifications/pubchem_fingerprints.txt">CACTVS descriptors</a> from the <a href="https://pubchem.ncbi.nlm.nih.gov/">NCBI PubChem database</a> include a column of Chemical Identification Numbers and label that column <code>cid</code>. We can only calculate the unweighted Promiscuity Index if no fingerprints or CID's are included. See <a href="#fileformat">below</a> for more details on file format.
+        </p>
+    </div>
+    <hr>
+</div>
+<div class="row">
+    <div class="large-12 columns">
+        <h2>Theory</h2>
+    </div>
+</div>
+<div class="row">
+    <div class="large-12 columns">
+        <p>Utilizing concepts from information theory, consider a process with $N$ possible outcomes, each occuring with a probability of $p_i$. The entropy for that set of outcomes is then</p>
+        <p>$$H = -\sum_{i=1}^{N} p_i \log p_i$$</p>
+        <p>The probability measure, $p$, can be defined in a variety of ways, so long as this definition is the same for all items in the set. Consider, for example, a set of enzymes. In this case we can imagine a system whereupon each enzyme is exposed to equal, low concentrations of $N$ possible substrates. Using catalytic efficiency, $e_i$, as a surrogate for probability density of any given enzyme-substate pair in the set, then probability that the $i$th substrate of the set of $N$ substrates will be metabolized before all others is</p>
+        <p>$$p_i = \frac{e_i}{\displaystyle\sum_{i=1}^{N} e_i}$$</p>
+        <p>Given these definitions of entropy and probability, a Promiscuity Index, $I$, can now be defined as</p>
+        <p>$$I = -\frac{1}{\log N} \sum_{i=1}^{N} \frac{e_i}{\displaystyle\sum_{j=1}^{N}e_j}\log \frac{e_i}{\displaystyle\sum_{j=1}^{N} e_j}$$</p>
+        <p>Clearly, if all $N$ substrates in the set are equally well-metabolized, then that particular enzyme is fully promiscuous for that set, thus $I = 1$. If, on the other hand, the enzyme under consideration demostrated activity with only one substrate in the set, the it has perfect specificity ($I = 0$).</p>
+        <p>However, dissimilarity of the set should also be considered. Intuitively, if the substrates in the set are very similar, then an enzyme which metabolizes them all may not be considered to be as promiscuous as an enzyme which does the same with a set of substrates which are all very different from one another. Or, returning to information entropy, a coorelation between items in the set under consideration reduces the entropy of hte information provided by that set.</p>
+        <p>As with defining probability above, the measure of set dissimilarty can take many forms, and should be chosen carefully. For our current example, a common way to evaluate similarity between chemical structures is based on the Jaccard distance between bitstrings. Here, a binary string of 1's and 0's can be created based on the presence (1) or absence (0) of any particular chemical identity or substructure. The distance between any given substrate and any other can then be determined using the Jaccard distance, where $\delta_{AB} = (a+b)/(a+b+c)$ if $a$ is the number of features (or 1's) present only in substrate A and $b$ is the number of features present only in B, and $c$ is the number of features present in both A and B.</p>
+        <p>We must also consider the overall dissimilarity of the set, $\delta_{set} = k/(k+l)$ where $k$ is the number of features present in at least one, but not all memebrs in the set, and $l$ is number of features present in all members. Thus, $\langle\delta\rangle_i$ is the normalized mean distance of each substrate from the set of substrated can be considered. With these factors in hand, we can now define a weighted Promiscuity Index, $J$, such that</p>
+        <p>$$J = - \frac{N}{\left(\displaystyle\sum_{i=1}^{N}\langle \delta\rangle_i\right) \log N} \sum_{i=1}^{N} \langle\delta\rangle_i \frac{e_i}{\displaystyle\sum_{j=1}^{N}e_j} \log\frac{e_i}{\displaystyle\sum_{j=1}^{N}e_j} $$</p>
+        <p>The weighted Promiscuity Index $J$ can also range from 0 to 1. We now have a useful quantitaive measure for the relative promiscuity of an enzyme. For a more complete discussion of the theory and some practical examples of these concepts and computations in research, interested readers are highly encouraged to read the <a href="http://pubs.acs.org/doi/abs/10.1021/bi701448p">orginal paper</a>, and references therein. Further examples of the Promisciuty Index in use can be found <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3068220/">here</a>, <a href="http://dmd.aspetjournals.org/content/38/12/2195.long">here</a>, and <a href="http://www.jbc.org/content/288/25/18599.long">here</a>.</p>
+        <p>This method was originally developed in order to determine the relative promiscuity of drug metabolizing enzymes across a set of substrates in a rigorous quantitative manner, as in the example above. At first, catalytic effeciencies were used as the measure of function, and MDL keysets for the fingerprints. The general methodology has since been extended for alternative input descriptor bitstrings and probability density functions. There is no theoretical reason why any set of descriptors and functional meaures cannot be used to determine Promiscuity Indicies, but please note that bitstrings only can be used as descriptors, and your measures of function should be modeled such that when the functional unit is 'better' as its job, that measure is more positive.</p>  
+    </div>
+    <hr>
+</div>
+<div class="row">
+    <div class="large-12 columns">
+        <h2>Usage</h2>
+        <a name="fileformat"></a>
+        <h4 class="subheader">File Format</h4>
+        <p>While CSV files are preferred, any of <code>.csv</code>, <code>.tsv</code>, <code>.txt</code>, or <code>.xlsx</code> are accepted. There should be one row per molecule/substrate. Each column should contain the data for the functional assay, such as catalytic effeciency as described above, and these should be stricly positive. If you include fingerprint bitstrings, that column should be in the same order as the assay data and <em>must</em> include the label <code>fingerprint</code> in the header. These bitstrings can consist only of <code>1</code>'s and <code>0</code>'s. If you'd like us to fetch <a href="ftp://ftp.ncbi.nlm.nih.gov/pubchem/specifications/pubchem_fingerprints.txt">CACTVS descriptors</a> from the <a href="https://pubchem.ncbi.nlm.nih.gov/">NCBI PubChem database</a> include a column of Chemical Identification Numbers in place of the fingerprint bitstrings and label that column <code>cid</code>. Fingerprints or CID's are not required, but only the unweighted Promiscuity Index can be calculated if neither is included. Please include nothing else in your data file. See the illustration below if you have questions. In addition, you can set your own lower limit of activity/function in the box provided. this number will be added to all data points in help prevent the presence of null values. It can be any positive number, but the default provided works fine, and does not tend to affect the results obtained.</p>
+        <p>
+        <object data="{{ url_for('static', filename='data_example2.svg') }}" type="image/svg+xml"></object>
+        </p>
+        <h4 class="subheader">Results</h4>
+        <p>Results provided include the unweighted Promiscuity Index $(I)$ and if fingerprints or CID's are included, the weighted Promiscuity Index $(J)$. Also reported will be the overall set dissimilarity $(\delta_{set})$ from above, labeled as dset. A CSV will also be made available for download. The unique column identifier you provided in the data file will be used as row labels.</p>
+        <h4 class="subheader">Privacy and Data Storage</h4>
+        <p>Neither your data or results be be stored past calculation time after you leave the page.</p>
+        <h4 class="subheader">Other Considerations</h4>
+        <p>If your dataset is very large, and particularly if we are fetching the fingerprints from the 
+        <a href="https://pubchem.ncbi.nlm.nih.gov/">NCBI PubChem database</a>, it may take a few moments to calculate your results. See the <a href="{{ url_for('faq') }}">FAQ</a> for other common problems.
+    </div>
+</div>
+
+{% endblock %}
+<!--
+<div class="row">
+    <div class="large-12 columns">
+        <h3>Selected Publications and References</h3>
+        <ul class="disc">
+            <li><a href"#">Source code</a></li>
+            <li>Nath, A. and Atkins, W., A Quantitative Index of Substrate Promiscuity, <i>Biochemistry</i>, <b>2008</b>,<i>47</i>157-166. [<a href="">Pubmed</a></li>
+            <li>
+
+    </div>
+</div>
+-->
+
+    
