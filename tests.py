@@ -1,8 +1,10 @@
 """
 Testing module for hetaira project.
 """
+
 import unittest
-from app.promiscuity import Promiscuity, get_pubchem_descriptors, bitarray, PubChemError, BitstringError, process_data
+from app.promiscuity import Promiscuity, get_pubchem_descriptors, bitarray
+from app.promiscuity import PubChemError, BitstringError, process_data
 from numpy import isnan
 
 class TestCase(unittest.TestCase):
