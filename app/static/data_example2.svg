@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" height="66.46mm" width="133.6mm" version="1.1" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" viewBox="0 0 473.30194 235.47432">
+ <defs>
+  <marker id="a" refY="0" refX="0" style="overflow:visible" orient="auto">
+   <path style="stroke-linejoin:round;fill-rule:evenodd;stroke:#000;stroke-width:.625" transform="scale(-.6)" d="m8.719 4.034-10.93-4.018 10.93-4.018c-1.745 2.372-1.735 5.617-6e-7 8.035z"/>
+  </marker>
+ </defs>
+ <metadata>
+  <rdf:RDF>
+   <cc:Work rdf:about="">
+    <dc:format>image/svg+xml</dc:format>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:title/>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <g transform="translate(-30.97 -320.2)">
+  <text style="font-size:17.5px;letter-spacing:0px;line-height:125%;word-spacing:0px;font-family:Consolas;fill:#000000" xml:space="preserve" y="491.69556" x="194.43478"><tspan x="194.43478" y="491.69556">1101010111</tspan></text>
+  <text style="font-size:17.5px;letter-spacing:0px;line-height:125%;word-spacing:0px;font-family:Consolas;fill:#000000" xml:space="preserve" y="352.36221" x="194.63559"><tspan x="194.63559" y="352.36221">0100101101</tspan></text>
+  <text style="font-size:17.5px;letter-spacing:0px;line-height:125%;word-spacing:0px;font-family:Consolas;fill:#000000" xml:space="preserve" y="373.31876" x="194.25961"><tspan x="194.25961" y="373.31876">1011100110</tspan></text>
+  <text style="font-size:17.5px;letter-spacing:0px;line-height:125%;word-spacing:0px;font-family:Consolas;fill:#000000" xml:space="preserve" y="392.27524" x="194.25961"><tspan x="194.25961" y="392.27524">1001010010</tspan></text>
+  <text style="font-size:17.5px;letter-spacing:0px;line-height:125%;word-spacing:0px;font-family:Consolas;fill:#000000" xml:space="preserve" y="413.23178" x="194.63559"><tspan x="194.63559" y="413.23178">0101010101</tspan></text>
+  <text style="font-size:17.5px;letter-spacing:0px;line-height:125%;word-spacing:0px;font-family:Consolas;fill:#000000" xml:space="preserve" y="352.36221" x="314.69565"><tspan x="314.69565" y="352.36221">1.57</tspan></text>
+  <text style="font-size:17.5px;letter-spacing:0px;line-height:125%;word-spacing:0px;font-family:Consolas;fill:#000000" xml:space="preserve" y="373.31876" x="314.69565"><tspan x="314.69565" y="373.31876">1.27</tspan></text>
+  <text style="font-size:17.5px;letter-spacing:0px;line-height:125%;word-spacing:0px;font-family:Consolas;fill:#000000" xml:space="preserve" y="392.27524" x="315.00754"><tspan x="315.00754" y="392.27524">0.85</tspan></text>
+  <text style="font-size:17.5px;letter-spacing:0px;line-height:125%;word-spacing:0px;font-family:Consolas;fill:#000000" xml:space="preserve" y="413.23178" x="314.64865"><tspan x="314.64865" y="413.23178">3.03</tspan></text>
+  <text style="font-size:17.5px;letter-spacing:0px;line-height:125%;word-spacing:0px;font-family:Consolas;fill:#000000" xml:space="preserve" y="352.36221" x="370.03253"><tspan x="370.03253" y="352.36221">3.26</tspan></text>
+  <text style="font-size:17.5px;letter-spacing:0px;line-height:125%;word-spacing:0px;font-family:Consolas;fill:#000000" xml:space="preserve" y="373.31876" x="370.20343"><tspan x="370.20343" y="373.31876">2.27</tspan></text>
+  <text style="font-size:17.5px;letter-spacing:0px;line-height:125%;word-spacing:0px;font-family:Consolas;fill:#000000" xml:space="preserve" y="392.27524" x="370.22479"><tspan x="370.22479" y="392.27524">1.58</tspan></text>
+  <text style="font-size:17.5px;letter-spacing:0px;line-height:125%;word-spacing:0px;font-family:Consolas;fill:#000000" xml:space="preserve" y="413.23178" x="370.1308"><tspan x="370.1308" y="413.23178">3.39</tspan></text>
+  <text style="font-size:17.5px;letter-spacing:0px;line-height:125%;word-spacing:0px;font-family:Consolas;fill:#000000" xml:space="preserve" y="352.36221" x="465.69107"><tspan x="465.69107" y="352.36221">1.08</tspan></text>
+  <text style="font-size:17.5px;letter-spacing:0px;line-height:125%;word-spacing:0px;font-family:Consolas;fill:#000000" xml:space="preserve" y="373.31876" x="465.83206"><tspan x="465.83206" y="373.31876">1.75</tspan></text>
+  <text style="font-size:17.5px;letter-spacing:0px;line-height:125%;word-spacing:0px;font-family:Consolas;fill:#000000" xml:space="preserve" y="392.27524" x="465.28946"><tspan x="465.28946" y="392.27524">3.84</tspan></text>
+  <text style="font-size:17.5px;letter-spacing:0px;line-height:125%;word-spacing:0px;font-family:Consolas;fill:#000000" xml:space="preserve" y="413.23178" x="465.99869"><tspan x="465.99869" y="413.23178">0.93</tspan></text>
+  <text style="font-size:17.5px;letter-spacing:0px;line-height:125%;word-spacing:0px;font-family:Consolas;fill:#000000" xml:space="preserve" y="491.61865" x="315.08871"><tspan x="315.08871" y="491.61865">4.57</tspan></text>
+  <text style="font-size:17.5px;letter-spacing:0px;line-height:125%;word-spacing:0px;font-family:Consolas;fill:#000000" xml:space="preserve" y="491.69556" x="370.31451"><tspan x="370.31451" y="491.69556">2.05</tspan></text>
+  <text style="font-size:17.5px;letter-spacing:0px;line-height:125%;word-spacing:0px;font-family:Consolas;fill:#000000" xml:space="preserve" y="491.69556" x="465.61417"><tspan x="465.61417" y="491.69556">3.91</tspan></text>
+  <text style="font-size:15px;font-weight:bold;letter-spacing:0px;line-height:125%;word-spacing:0px;font-family:sans-serif;fill:#000000" xml:space="preserve" y="331.71356" x="197.31198"><tspan x="197.31198" y="331.71356">fingerprint</tspan></text>
+  <text style="font-size:15px;font-weight:bold;letter-spacing:0px;line-height:125%;word-spacing:0px;font-family:sans-serif;fill:#000000" xml:space="preserve" y="331.71356" x="314.26108"><tspan x="314.26108" y="331.71356">enz1</tspan></text>
+  <text style="font-size:15px;font-weight:bold;letter-spacing:0px;line-height:125%;word-spacing:0px;font-family:sans-serif;fill:#000000" xml:space="preserve" y="331.71356" x="369.47589"><tspan x="369.47589" y="331.71356">enz2</tspan></text>
+  <text style="font-size:15px;font-weight:bold;letter-spacing:0px;line-height:125%;word-spacing:0px;font-family:sans-serif;fill:#000000" xml:space="preserve" y="331.71356" x="465.15091"><tspan x="465.15091" y="331.71356">enz..</tspan></text>
+  <circle style="stroke:#000;stroke-width:.4067" cx="486.1" transform="rotate(90)" cy="-426" r="2.033"/>
+  <circle style="stroke:#000;stroke-width:.4067" cx="486.1" transform="rotate(90)" cy="-446.6" r="2.033"/>
+  <circle style="stroke:#000;stroke-width:.4067" cx="486.1" transform="rotate(90)" cy="-436.3" r="2.033"/>
+  <circle style="stroke:#000;stroke-width:.4067" cx="327" transform="rotate(90)" cy="-426" r="2.033"/>
+  <circle style="stroke:#000;stroke-width:.4067" cx="327" transform="rotate(90)" cy="-446.6" r="2.033"/>
+  <circle style="stroke:#000;stroke-width:.4067" cx="327" transform="rotate(90)" cy="-436.3" r="2.033"/>
+  <circle style="stroke:#000;stroke-width:.4067" cx="447" transform="rotate(90)" cy="-426" r="2.033"/>
+  <circle style="stroke:#000;stroke-width:.4067" cx="447" transform="rotate(90)" cy="-446.6" r="2.033"/>
+  <circle style="stroke:#000;stroke-width:.4067" cx="447" transform="rotate(90)" cy="-436.3" r="2.033"/>
+  <circle style="stroke:#000;stroke-width:.4067" cx="348.2" transform="rotate(90)" cy="-426" r="2.033"/>
+  <circle style="stroke:#000;stroke-width:.4067" cx="348.2" transform="rotate(90)" cy="-446.6" r="2.033"/>
+  <circle style="stroke:#000;stroke-width:.4067" cx="348.2" transform="rotate(90)" cy="-436.3" r="2.033"/>
+  <circle style="stroke:#000;stroke-width:.4067" cx="367.9" transform="rotate(90)" cy="-426" r="2.033"/>
+  <circle style="stroke:#000;stroke-width:.4067" cx="367.9" transform="rotate(90)" cy="-446.6" r="2.033"/>
+  <circle style="stroke:#000;stroke-width:.4067" cx="367.9" transform="rotate(90)" cy="-436.3" r="2.033"/>
+  <circle style="stroke:#000;stroke-width:.4067" cx="388.7" transform="rotate(90)" cy="-426" r="2.033"/>
+  <circle style="stroke:#000;stroke-width:.4067" cx="388.7" transform="rotate(90)" cy="-446.6" r="2.033"/>
+  <circle style="stroke:#000;stroke-width:.4067" cx="388.7" transform="rotate(90)" cy="-436.3" r="2.033"/>
+  <circle style="stroke:#000;stroke-width:.4067" cx="407" transform="rotate(90)" cy="-426" r="2.033"/>
+  <circle style="stroke:#000;stroke-width:.4067" cx="407" transform="rotate(90)" cy="-446.6" r="2.033"/>
+  <circle style="stroke:#000;stroke-width:.4067" cx="407" transform="rotate(90)" cy="-436.3" r="2.033"/>
+  <circle style="stroke:#000;stroke-width:.4067" cx="-435.7" transform="rotate(-90)" cy="389.6" r="2.033"/>
+  <circle style="stroke:#000;stroke-width:.4067" cx="-458.2" transform="rotate(-90)" cy="389.6" r="2.033"/>
+  <circle style="stroke:#000;stroke-width:.4067" cx="-447" transform="rotate(-90)" cy="389.6" r="2.033"/>
+  <circle style="stroke:#000;stroke-width:.4067" cx="-435.7" transform="rotate(-90)" cy="334" r="2.033"/>
+  <circle style="stroke:#000;stroke-width:.4067" cx="-447" transform="rotate(-90)" cy="334" r="2.033"/>
+  <circle style="stroke:#000;stroke-width:.4067" cx="-458.2" transform="rotate(-90)" cy="334" r="2.033"/>
+  <circle style="stroke:#000;stroke-width:.4067" cx="-435.7" transform="rotate(-90)" cy="485" r="2.033"/>
+  <circle style="stroke:#000;stroke-width:.4067" cx="-458.2" transform="rotate(-90)" cy="485" r="2.033"/>
+  <circle style="stroke:#000;stroke-width:.4067" cx="-447" transform="rotate(-90)" cy="485" r="2.033"/>
+  <circle style="stroke:#000;stroke-width:.4067" cx="-435.7" transform="rotate(-90)" cy="242.6" r="2.033"/>
+  <circle style="stroke:#000;stroke-width:.4067" cx="-458.2" transform="rotate(-90)" cy="242.6" r="2.033"/>
+  <circle style="stroke:#000;stroke-width:.4067" cx="-447" transform="rotate(-90)" cy="242.6" r="2.033"/>
+  <text style="font-size:15px;letter-spacing:0px;text-anchor:middle;line-height:125%;word-spacing:0px;text-align:center;font-family:sans-serif;fill:#000000" xml:space="preserve" y="331.94287" x="81.096779"><tspan x="81.096779" y="331.94287">header row</tspan></text>
+  <path style="marker-end:url(#a);stroke:#000;stroke-width:1px;fill:none" d="m130 327.9h60"/>
+  <text style="font-size:15px;letter-spacing:0px;text-anchor:middle;line-height:125%;word-spacing:0px;text-align:center;font-family:sans-serif;fill:#000000" xml:space="preserve" y="409.57693" x="93.809418"><tspan x="93.809418" y="409.57693">one row for each</tspan><tspan x="93.809418" y="428.32693">molecule</tspan></text>
+  <text style="font-size:15px;letter-spacing:0px;text-anchor:middle;line-height:125%;word-spacing:0px;text-align:center;font-family:sans-serif;fill:#000000" xml:space="preserve" y="533.95056" x="410.07523"><tspan x="410.07523" y="533.95056">functional measures</tspan><tspan x="410.07523" y="552.70056">should be strictly &gt; 0</tspan></text>
+  <path style="stroke:#000;stroke-width:1px;fill:none" d="m185 347.4h-15v140h15"/>
+  <path style="stroke:#000;stroke-width:1px;fill:none" d="m330 502.4v10h155v-10"/>
+ </g>
+</svg>
