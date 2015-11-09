@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="row">
+    <div class="large-12 columns">
+        <h1>Frequently Asked Questions</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="large-12 columns">
+        <ol>
+            <li>Why must the functional measure be positive?</li>
+            <ul>
+                <li>In purely practical terms, the log of 0 is undefined. In a more theoretical sense, the unweighted Promiscuity Index, <i>I</i>, cannot be considered valid under these conditions. If an enzyme exhibits no activity towards a particular substrate, then that substrate can be exchanged with any other substrate against which that enzyme also no activity, and thus the Promiscuity Index become inclusive of all chemical space, and you would have to provide activity measures for all molecules for an accurate <i>I</i>. Negative functional measures included with positve ones would indicate that an opposing process is taking place, and we can currently only extend the <i>I</i> and <i>J</i> calculations to one set of forward processes. In ohter words, the enzymes must exhibit the same direction of reaction for all processes under consideration. If you have <i>all</i> negative values, simply rescale into the positive range.</li>
+            </ul>
+            <li>Why do I have nan's in my results?</li>
+            <ul>
+                <li>In some circumstances, an unrecoverable math error or discontinuity may be encountered. Please check your data file and ensure that it follows the formatting guidelines. If it does, there may be a bug.</li>
+            </ul>
+        </ol>
+    </div>
+</div>
+{% endblock %}
+
