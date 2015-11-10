@@ -1,9 +1,11 @@
 import os
+import pygal
+from pygal.style import Style
 from app import app
-from flask import render_template, flash, redirect, url_for, Response, session 
+from flask import render_template, flash, redirect, url_for, Response, session
+from werkzeug import secure_filename
 from .forms import DataUpload
 from .promiscuity import calculate_results, PubChemError, BitstringError
-from werkzeug import secure_filename
 from uuid import uuid4
 
 
@@ -38,23 +40,35 @@ def index():
 def results():
 
     results = session['results']
+    
+    # set up a plot of the results
+    fig_style = Style(label_font_size = 16,
+                      major_label_font_size = 16,
+                      title_font_size = 18)
+    fig = pygal.Bar(disable_xml_declaration=True,
+                    range=(0.0, 1.0), style=fig_style)
+    fig.title = 'Promiscuity Indicies'
+    fig.x_labels = [result[0] for result in results[:-1]]
+    fig.y_labels = [0.0, 0.25, 0.5, 0.75, 1.0]
+    fig.add('I', [float(result[1]) for result in results[:-1]])
+    try:
+        fig.add('J', [float(result[2]) for result in results[:-1]])
+    except IndexError:
+        pass
+    fig.value_formatter = lambda x: '%.3f' % x
+
     if len(results) > 20:
         results = results[:21]
-    return render_template('results.html', results=results, title='Results')
+    return render_template('results.html', results=results,
+                           title='Results', fig=fig)
 
 @app.route('/download')
 def download():
 
     results = (','.join(result) +'\n' for result in session['results'])
     return Response(results, mimetype='text/csv',
-                    headers={'Content-Disposition': 'attachment; filename = results.csv'})
-
-@app.route('/example')
-def example():
-    
-    results = calculate_results(os.path.join(
-        os.path.dirname(__file__), 'exampledata.csv'))
-    return render_template('results.html', results=results)
+                    headers={'Content-Disposition': 
+                             'attachment;filename = results.csv'})
 
 @app.route('/faq')
 def faq():
@@ -63,3 +77,11 @@ def faq():
 @app.route('/examples')
 def examples():
     return render_template('examples.html', title='examples')
+
+#@app.route('/example')
+#def example():
+#    
+#    results = calculate_results(os.path.join(
+#        os.path.dirname(__file__), 'exampledata.csv'))
+#    return render_template('results.html', results=results)
+

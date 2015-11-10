@@ -5,7 +5,7 @@ from wtforms.validators import NumberRange, Optional
 
 class DataUpload(Form):
     datafile = FileField('data', validators=[
-        FileAllowed(['csv','tsv','txt','xlsx'], 'Bad filetype!'),
+        FileAllowed(['csv','tsv','txt','xlsx'], 'Bad filetype'),
         FileRequired('You must upload a data file.')])
 
     min = DecimalField(places = None,validators=[

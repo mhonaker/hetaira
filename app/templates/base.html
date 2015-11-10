@@ -7,9 +7,10 @@
         <link rel="stylesheet" href="{{ url_for('static', filename='css/foundation.css') }}" />
         <script src="{{ url_for('static', filename='js/vendor/modernizr.js') }}"></script>
         <script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});</script>
-        <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+        <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
         </script>
-
+        <script type="text/javascript" src="http://kozea.github.com/pygal.js/latest/pygal-tooltips.min.js"></script>
+        <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
     </head>
     <body>
         <div class="contain-to-grid sticky">
@@ -25,7 +26,7 @@
                         <li><a href="{{ url_for('index') }}">Home</a></li>
                         <li><a href="{{ url_for('faq') }}">FAQ</a></li>
                         <li><a href="{{ url_for('examples') }}">Examples</a></li>
-                        <li><a href="#">Source</a></li>
+                        <li><a href="https://github.com/mhonaker/hetaira">Source</a></li>
                     </ul>
                 </section>
             </nav>
