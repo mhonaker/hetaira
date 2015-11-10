@@ -21,7 +21,7 @@
                 </div>
                 <div class="row">
                     <div class="large-12 columns">
-                        <label>Lower bound on density
+                        <label>Lower bound on activity 
                             {{ form.min(placeholder="(default = 1e-6)") }}
                             {% for error in form.min.errors %}
                             <small class="error">{{ error }}</small>
@@ -65,8 +65,8 @@
 </div>
 <div class="row">
     <div class="large-12 columns">
-        <h2>Usage</h2>
         <a name="fileformat"></a>
+        <h2>Usage</h2>
         <h4 class="subheader">File Format</h4>
         <p>While CSV files are preferred, any of <code>.csv</code>, <code>.tsv</code>, <code>.txt</code>, or <code>.xlsx</code> are accepted. There should be one row per molecule/substrate. Each column should contain the data for the functional assay, such as catalytic effeciency as described above, and these should be stricly positive. If you include fingerprint bitstrings, that column should be in the same order as the assay data and <em>must</em> include the label <code>fingerprint</code> in the header. These bitstrings can consist only of <code>1</code>'s and <code>0</code>'s. If you'd like us to fetch <a href="ftp://ftp.ncbi.nlm.nih.gov/pubchem/specifications/pubchem_fingerprints.txt">CACTVS descriptors</a> from the <a href="https://pubchem.ncbi.nlm.nih.gov/">NCBI PubChem database</a> include a column of Chemical Identification Numbers in place of the fingerprint bitstrings and label that column <code>cid</code>. Fingerprints or CID's are not required, but only the unweighted Promiscuity Index can be calculated if neither is included. Please include nothing else in your data file. See the illustration below if you have questions. In addition, you can set your own lower limit of activity/function in the box provided. this number will be added to all data points in help prevent the presence of null values. It can be any positive number, but the default provided works fine, and does not tend to affect the results obtained.</p>
         <br>
@@ -79,7 +79,16 @@
         <p>Neither your data nor results be be stored past calculation time after you leave the page.</p>
         <h4 class="subheader">Other Considerations</h4>
         <p>If your dataset is very large, and particularly if we are fetching the fingerprints from the 
-        <a href="https://pubchem.ncbi.nlm.nih.gov/">NCBI PubChem database</a>, it may take a few moments to calculate your results. See the <a href="{{ url_for('faq') }}">FAQ</a> for other common problems.
+        <a href="https://pubchem.ncbi.nlm.nih.gov/">NCBI PubChem database</a>, it may take a few moments to calculate your results. See the <a href="{{ url_for('faq') }}">FAQ</a> for other common problems.</p>
+        <a name="references"></a>
+        <h4 class="subheader">Selected References</h4>
+        <ol>
+            <li>Shannon CE (1948) A mathematical theory of communication. <i>Bell Syst. Tech. J. 27</i>, 379-423, 623-656.</li>
+            <li>Nath A, Atkins WM (2008) A quantitative index of substrate promiscuity. <i>Biochemistry 47</i>, 157-166. <a href="http://www.ncbi.nlm.nih.gov/pubmed/18081310">[PubMed]</a></li>
+            <li>Nath A, Zientek MA, Burke BJ, Jiang Y, Atkins WM (2010) Quantifying and prediction the promiscuity and isoform specificity of small-molecule cytochrome P450 inhibitors. <i>Drug Metab. Dispos. 38</i>, 2195-2203. <a href="http://www.ncbi.nlm.nih.gov/pubmed/20841376">[PubMed]</a></li>
+            <li>Foti RS, Honaker M, Nath A, Pearson JT, Buttrick B, Isoherranen N, Atkins WM (2011) Catalytic versus inhibitory promiscuity in cytochrome P450s: implications for evolution of new function. <i>Biochemistry 50</i>, 2387-2393. <a href="http://www.ncbi.nlm.nih.gov/pubmed/21370922">[PubMed]</a></li>
+            <li>Honaker MT, Acchione M, Zhang W, Mannervik B, Atkins WM (2013) Enzymatic detoxication, conformational selection, and the role of molten globule active sites. <i>J. Biol. Chem. 288</i>, 18599-18611. <a href="http://www.ncbi.nlm.nih.gov/pubmed/23649628">[PubMed]</a></li>
+        </ol>
     </div>
 </div>
 

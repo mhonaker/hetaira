@@ -4,7 +4,7 @@
         <meta chartset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         {% if title %}<title>Hetaira | {{ title }}</title>{% endif %}
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/foundation.css') }}" />
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/foundation.min.css') }}" />
         <script src="{{ url_for('static', filename='js/vendor/modernizr.js') }}"></script>
         <script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});</script>
         <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
@@ -27,6 +27,7 @@
                         <li><a href="{{ url_for('faq') }}">FAQ</a></li>
                         <li><a href="{{ url_for('examples') }}">Examples</a></li>
                         <li><a href="https://github.com/mhonaker/hetaira">Source</a></li>
+                        <li><a href="{{ url_for('index') + '#references' }}">References</a></li>
                     </ul>
                 </section>
             </nav>
