@@ -12,14 +12,14 @@ from binascii import hexlify
 from base64 import b64decode
 
 
+#----------------------------------------------------------
+# Helper Functions to process data files for Promiscuity
+# Index calculations.
+#----------------------------------------------------------
+
 def calculate_results(file):
     """
-    The working function to be called by the main view function.
-    This function calls the file processing functions, then creates
-    a Promiscuity object. This object has mehtods to be called
-    to the caluclation of I, J, and dset (see below for further
-    definitions). Then it returns the caluclated values in a form
-    suitable for use in the view functions.
+    Working function to be called by main view function.
     """
 
     data = process_data(file)
@@ -28,13 +28,8 @@ def calculate_results(file):
 
 def process_data(file):
     """
-    Attempts to determine if there are chemical bitstrings in the file
-    or PubChem CID identifiers or none. Completes this only on text-type
-    files. It will also attempt to determine if the file is an Excel file.
-
-    Then this function calls the relevant file processing function for
-    further processing to process the file into arrays useable by the
-    Promiscuity class.
+    Conversion utility to process a file into a variable
+    array for Promiscuity Index calculations.
     """
 
     try:
@@ -51,8 +46,7 @@ def process_data(file):
 
 def process_csv(file, desctype):
     """
-    Processes text files containing descriptor bitstrings into arrays
-    suitable for generating Promiscuity objects.
+    Helper function for process_data(). Used for non-excel files.   
     """
 
     with open(file) as f:
@@ -75,8 +69,7 @@ def process_csv(file, desctype):
 
 def process_excel(file):
     """
-    Processes Excel files into arrays suitable for generating 
-    Promiscuity objects.
+    Helper function for process_data(). Used for excel files.
     """
     
     df = read_excel(file)
@@ -101,8 +94,7 @@ def process_excel(file):
 def get_pubchem_descriptors(cids):
     """
     Takes an an array of Pubchem CIDs and retrieves the base64 encoded
-    2D fingerprints via PUG REST API. Then calls the conversion helper
-    functions to return the proper bit array.
+    2D fingerprints via PUG REST API.
     """
 
     url = PUBCHEM_URL_START + ','.join(cids) + PUBCHEM_URL_END
@@ -191,7 +183,7 @@ class Promiscuity:
     def ivalue(self, idx):
         """
         Calculates the unweighted Promicuity Index.
-        The data should be strictly > 0 and more positive is `better`.
+        The data should be strictly > 0 and more positive is 'better'.
         """
 
         a = self.data[:,idx] / self.data[:,idx].sum()
@@ -254,6 +246,7 @@ class Promiscuity:
         Returns an array of Promiscuity results suitable for
         delivery into a Flask Response CSV-like object.
         """
+        
         if self.descriptors is not None:
             results = [[str(self.items[i]), str(self.ivalue(i)),
                         str(self.jvalue(i))] for i in range(len(self.items))]
