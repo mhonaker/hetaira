@@ -1,4 +1,6 @@
-# the app run file
+"""
+Run this to start the Hetaira app.
+"""
 
 from app import app
 

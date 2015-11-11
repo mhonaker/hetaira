@@ -1,7 +1,6 @@
 from flask import Flask
 
-app = Flask('app', instance_relative_config=True)
+app = Flask('app')
 app.config.from_object('config')
-app.config.from_pyfile('config.py')
 
 from app import views
