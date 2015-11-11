@@ -78,10 +78,6 @@ def faq():
 def examples():
     return render_template('examples.html', title='examples')
 
-#@app.route('/example')
-#def example():
-#    
-#    results = calculate_results(os.path.join(
-#        os.path.dirname(__file__), 'exampledata.csv'))
-#    return render_template('results.html', results=results)
-
+@app.errorhandler(500)
+def internal_server_error(e):
+    return render_template('500.html'), 500
