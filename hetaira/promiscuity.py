@@ -62,7 +62,30 @@ def process_csv(data, desctype):
         data = read_csv(BytesIO(data.read()), sep=sep.delimiter)
         ids = data.columns.values
         descriptors = None
+    return [ids, data, descriptors]
 
+def process_excel(file):
+    """
+    Helper function for process_data(). Used for excel files.
+    """
+    
+    df = read_excel(file)
+    headers = [header.lower() for header in df.columns.values]
+    
+    if not FP or CID in headers:
+        ids = df.columns.values
+        data = df
+        descriptors = None
+        return [ids, data, descriptors]
+    if FP in headers:
+        desctype = FP
+        descriptors = bitarray(df[desctype])
+    elif CID in headers:
+        desctype = CID
+        descriptors = get_pubchem_descriptors(df[desctype].astype(object))
+    
+    ids = df.columns.values[~(df.columns.values == desctype)]
+    data = df[ids]
     return [ids, data, descriptors]
 
 def get_pubchem_descriptors(cids):
