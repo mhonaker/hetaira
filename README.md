@@ -9,9 +9,11 @@ Please see the [webpage](https://hetaira.herokuapp.com) and references therein f
 
 [Try it out](https://hetaira.herokuapp.com)
 
-**Local Use**
+**Local Use** 
+
 This repo contains all the code that allows localhost use.
 For very basic use (this assumes you have installed [python 3.5.0](https://www.python.org/downloads/):
+
 1. Set up a python virtual environment using [virtualenv](https://virtualenv.readthedocs.org/en/latest/)in the directory of your choice.
 2. Install the requirements into the virtual environment using pip. The example below uses the command line.
 3. Start the virtual environment (you can also set up [virtualenvwrapper](https://virtualenvwrapper.readthedocs.org/en/latest/)).
