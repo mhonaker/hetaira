@@ -18,8 +18,7 @@ def index():
     if form.validate_on_submit():
         # make a unique and safe filename
         filename = str(uuid4()) + secure_filename(form.datafile.data.filename)
-        session['datafile'] = os.path.join(os.path.join(
-            os.path.dirname(__file__), 'uploads'), filename)
+        session['datafile'] = os.path.join(app.config['TMP_DIR'], filename)
         form.datafile.data.save(session['datafile'])
         try:
             session['results'] = calculate_results(session['datafile'])
