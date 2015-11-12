@@ -2,5 +2,5 @@ hetvenv/
 __pycache__
 hetaira/__pycache__
 *.swp
-Procfile
+
 runtime.txt
