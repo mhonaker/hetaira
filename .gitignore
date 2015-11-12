@@ -3,5 +3,6 @@ instance/
 __pycache__
 app/__pycache
 app/uploads
-
+testdata/
+tests.py
 *.swp
