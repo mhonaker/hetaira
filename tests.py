@@ -3,8 +3,8 @@ Testing module for hetaira project.
 """
 
 import unittest
-from app.promiscuity import Promiscuity, get_pubchem_descriptors, bitarray
-from app.promiscuity import PubChemError, BitstringError, process_data
+from hetaira.promiscuity import Promiscuity, get_pubchem_descriptors, bitarray
+from hetaira.promiscuity import PubChemError, BitstringError, process_data
 from numpy import isnan
 
 class TestCase(unittest.TestCase):
