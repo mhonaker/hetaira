@@ -5,7 +5,7 @@ Configuration settings for Hetaira app.
 import os
 
 # Settings related to Flask and extentions
-DEBUG = True
+DEBUG = False 
 
 # get the secret key from environment
 SECRET_KEY = os.environ['SECRET_KEY']
