@@ -1,9 +1,7 @@
-import os
 import pygal
 from pygal.style import Style
 from hetaira import app
 from flask import render_template, flash, redirect, url_for, Response, session
-from werkzeug import secure_filename
 from .forms import DataUpload
 from .promiscuity import calculate_results, PubChemError, BitstringError
 

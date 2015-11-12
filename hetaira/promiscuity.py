@@ -6,7 +6,7 @@ calculations for the Hetaira web tool.
 import numpy as np
 import requests
 from config import FP, CID, CID_FP, PUBCHEM_URL_START, PUBCHEM_URL_END, CID_PAD_LEN
-from pandas import read_csv, read_excel
+from pandas import read_csv
 from csv import Sniffer
 from binascii import hexlify
 from base64 import b64decode
@@ -63,30 +63,6 @@ def process_csv(data, desctype):
         ids = data.columns.values
         descriptors = None
 
-    return [ids, data, descriptors]
-
-def process_excel(file):
-    """
-    Helper function for process_data(). Used for excel files.
-    """
-    
-    df = read_excel(file)
-    headers = [header.lower() for header in df.columns.values]
-    
-    if not FP or CID in headers:
-        ids = df.columns.values
-        data = df
-        descriptors = None
-        return [ids, data, descriptors]
-    if FP in headers:
-        desctype = FP
-        descriptors = bitarray(df[desctype])
-    elif CID in headers:
-        desctype = CID
-        descriptors = get_pubchem_descriptors(df[desctype].astype(object))
-    
-    ids = df.columns.values[~(df.columns.values == desctype)]
-    data = df[ids]
     return [ids, data, descriptors]
 
 def get_pubchem_descriptors(cids):

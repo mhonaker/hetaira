@@ -1,5 +1,5 @@
 """
-The set of forms needed for Hetaira.
+Form for data needed for Hetaira.
 """
 
 from flask_wtf import Form
@@ -9,7 +9,7 @@ from wtforms.validators import NumberRange, Optional
 
 class DataUpload(Form):
     datafile = FileField('data', validators=[
-        FileAllowed(['csv','tsv','txt','xlsx'], 'Bad filetype'),
+        FileAllowed(['csv','tsv','txt'], 'CSV, TSV, TXT only please')
         FileRequired('You must upload a data file.')])
 
     min = DecimalField(places = None,validators=[
