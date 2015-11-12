@@ -6,7 +6,6 @@ from flask import render_template, flash, redirect, url_for, Response, session
 from werkzeug import secure_filename
 from .forms import DataUpload
 from .promiscuity import calculate_results, PubChemError, BitstringError
-from uuid import uuid4
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -16,12 +15,9 @@ def index():
     form = DataUpload()
     
     if form.validate_on_submit():
-        # make a unique and safe filename
-        filename = str(uuid4()) + secure_filename(form.datafile.data.filename)
-        session['datafile'] = os.path.join(app.config['TMP_DIR'], filename)
-        form.datafile.data.save(session['datafile'])
+        
         try:
-            session['results'] = calculate_results(session['datafile'])
+            session['results'] = calculate_results(form.datafile.data)
             return redirect(url_for('results'))
         except (BitstringError, ValueError):
             flash("Fingerprints can only contain 0's or 1's")
@@ -30,8 +26,6 @@ def index():
         except PubChemError:
             flash("There was a problem collecting fingerprints from \
                   the PubChem database. Please verify the submitted CIDs")
-        finally:
-            os.remove(session['datafile'])
         
     return render_template('index.html',form=form, title='Welcome')
 

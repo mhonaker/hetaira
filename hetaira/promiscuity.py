@@ -10,6 +10,7 @@ from pandas import read_csv, read_excel
 from csv import Sniffer
 from binascii import hexlify
 from base64 import b64decode
+from io import BytesIO
 
 
 #----------------------------------------------------------
@@ -17,43 +18,40 @@ from base64 import b64decode
 # Index calculations.
 #----------------------------------------------------------
 
+
 def calculate_results(file):
     """
     Working function to be called by main view function.
     """
-
     data = process_data(file)
     promiscuity = Promiscuity(data[0], data[1], data[2])
     return promiscuity.hetaira_results()
 
-def process_data(file):
+def process_data(data):
     """
-    Conversion utility to process a file into a variable
+    Conversion utility to process a data stream into a variable
     array for Promiscuity Index calculations.
     """
 
-    try:
-        with open(file) as f:
-            headers = f.readline().lower()
-        if FP in headers:
-            return process_csv(file, FP)
-        elif CID in headers:
-            return process_csv(file, CID)
-        else:
-            return process_csv(file, None)
-    except UnicodeDecodeError:
-        return process_excel(file)
+    header = data.readline().lower()
+    data.seek(0)
+    if FP.encode() in header:
+        return process_csv(data, FP)
+    elif CID.encode() in header:
+        return process_csv(data, CID)
+    else:
+        return process_csv(data, None)
 
-def process_csv(file, desctype):
+def process_csv(data, desctype):
     """
-    Helper function for process_data(). Used for non-excel files.   
+    Helper function for process_data().   
     """
 
-    with open(file) as f:
-        sep = Sniffer().sniff(f.readline())
-    
+    sep = Sniffer().sniff(data.readline().decode('utf-8'))
+    data.seek(0)
     if desctype is not None:
-        df = read_csv(file, sep=sep.delimiter, dtype={desctype: object})
+        df = read_csv(BytesIO(data.read()),
+                      sep=sep.delimiter, dtype={desctype: object})
         ids = df.columns.values[~(df.columns.values == desctype)]
         data = df[ids]
         if desctype == CID:
@@ -61,7 +59,7 @@ def process_csv(file, desctype):
         else:
             descriptors = bitarray(df[desctype])
     else:
-        data = read_csv(file, sep=sep.delimiter)
+        data = read_csv(BytesIO(data.read()), sep=sep.delimiter)
         ids = data.columns.values
         descriptors = None
 
