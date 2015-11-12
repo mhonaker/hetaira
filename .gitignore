@@ -1,6 +1,6 @@
 hetvenv/
 __pycache__
 hetaira/__pycache__
-testdata/
-tests.py
 *.swp
+Procfile
+runtime.txt
