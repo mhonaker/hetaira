@@ -59,16 +59,9 @@ class TestCase(unittest.TestCase):
         self.assertRaises(ValueError, bitarray, [['a', 0, 0],[1,1,1]])
 
     def test_app_get_index(self):
-        rv = self.app.get('/')
-        assert b'Theory' in rv.get_data()
-
-    def make_results(self, data):
-        return self.app.post('/index', data=data, follow_redirects=True)
-
-    def test_get_results(self):
-        rv = self.make_results('testdata/testdata.csv')
-        assert rv.get_data() is not None 
-
+        resp = self.app.get('/')
+        assert b'Theory' in resp.get_data()
+        self.assertEqual(self.app.post('/', data='testdata/testdata.csv').status_code, 200)
 
 unittest.main()
 
