@@ -1,0 +1,6 @@
+hetaira/static/css/* linguist-vendored
+hetaira/static/js/* linguist-vendored
+hetaira/templates/index.html linguist-language=Jinja2
+hetaira/templates/base.html linguist-language=Jinja2
+hetaira/templates/results.html linguist-language=Jinja2
+
