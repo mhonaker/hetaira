@@ -51,7 +51,8 @@ def process_csv(data, desctype):
     data.seek(0)
     if desctype is not None:
         df = read_csv(BytesIO(data.read()),
-                      sep=sep.delimiter, dtype={desctype: object})
+                      sep=sep.delimiter, dtype={desctype: object},
+                      skipinitialspace=True)
         ids = df.columns.values[~(df.columns.values == desctype)]
         data = df[ids]
         if desctype == CID:
