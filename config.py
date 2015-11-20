@@ -6,10 +6,10 @@ import os
 from pygal.style import Style 
 
 # Settings related to Flask and extentions
-DEBUG = True
+DEBUG = False
 
 # get the secret key from environment
-SECRET_KEY = 'akey'#os.environ['SECRET_KEY']
+SECRET_KEY = os.environ['SECRET_KEY']
 
 # NCBI Pubchem PUG-REST settings
 PUBCHEM_URL_START = 'http://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/'
