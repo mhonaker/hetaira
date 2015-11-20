@@ -37,9 +37,6 @@ def results():
     results = session['results']
     
     # set up a plot of the results
-    fig_style = Style(label_font_size = 16,
-                      major_label_font_size = 16,
-                      title_font_size = 18)
     fig = pygal.Bar(disable_xml_declaration=True,
                     range=(0.0, 1.0),
                     style=app.config['STYLE'])
