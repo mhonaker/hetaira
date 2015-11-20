@@ -4,8 +4,9 @@ Testing module for hetaira project.
 
 import unittest
 import hetaira
-from hetaira.promiscuity import Promiscuity, get_pubchem_descriptors, bitarray
-from hetaira.promiscuity import PubChemError, BitstringError, process_data
+from hetaira.promiscuity import Promiscuity
+from hetaira.util import get_pubchem_descriptors, bitarray
+from hetaira.util import PubChemError, BitstringError, process_data
 from numpy import isnan
 
 

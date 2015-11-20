@@ -4,19 +4,8 @@ calculations for the Hetaira web tool.
 """
 
 import numpy as np
-import requests
-from config import FP, CID, CID_FP, PUBCHEM_URL_START, PUBCHEM_URL_END, CID_PAD_LEN
-from pandas import read_csv
-from csv import Sniffer
-from binascii import hexlify
-from base64 import b64decode
-from io import BytesIO
-
-
-#----------------------------------------------------------
-# Helper Functions to process data files for Promiscuity
-# Index calculations.
-#----------------------------------------------------------
+from .util import process_data
+from string import ascii_lowercase
 
 
 def calculate_results(file):
@@ -27,90 +16,8 @@ def calculate_results(file):
     promiscuity = Promiscuity(data[0], data[1], data[2])
     return promiscuity.hetaira_results()
 
-def process_data(data):
-    """
-    Conversion utility to process a data stream into a variable
-    array for Promiscuity Index calculations.
-    """
-
-    header = data.readline().lower()
-    data.seek(0)
-    if FP.encode() in header:
-        return process_csv(data, FP)
-    elif CID.encode() in header:
-        return process_csv(data, CID)
-    else:
-        return process_csv(data, None)
-
-def process_csv(data, desctype):
-    """
-    Helper function for process_data().   
-    """
-
-    sep = Sniffer().sniff(data.readline().decode('utf-8'))
-    data.seek(0)
-    if desctype is not None:
-        df = read_csv(BytesIO(data.read()),
-                      sep=sep.delimiter, dtype={desctype: object},
-                      skipinitialspace=True)
-        ids = df.columns.values[~(df.columns.values == desctype)]
-        data = df[ids]
-        if desctype == CID:
-            descriptors = get_pubchem_descriptors(df[CID])
-        else:
-            descriptors = bitarray(df[desctype])
-    else:
-        data = read_csv(BytesIO(data.read()), sep=sep.delimiter)
-        ids = data.columns.values
-        descriptors = None
-
-    return [ids, data, descriptors]
-
-def get_pubchem_descriptors(cids):
-    """
-    Takes an an array of Pubchem CIDs and retrieves the base64 encoded
-    2D fingerprints via PUG REST API.
-    """
-
-    url = PUBCHEM_URL_START + ','.join(cids) + PUBCHEM_URL_END
-    r = requests.get(url)
-    if r.status_code != 200:
-        raise PubChemError
-    else:
-        fprints = [b64tobitstring(fprint[CID_FP])
-                   for fprint in r.json()['PropertyTable']['Properties']]
-
-    return bitarray(fprints) 
-
-
-def b64tobitstring(b64):
-    """
-    Converts base64 encoded Pubchem 2D chemical fingerprints into
-    bitstrings to be used in the promiscuity class. Also trims the
-    padding off the end.
-    """
-    
-    return bin(int(hexlify(b64decode(b64)), 16))[2:-CID_PAD_LEN]
-
-def bitarray(fprints):
-    """
-    Converts an array of bitsrings into an array of bit arrays.
-    """
-    
-    descriptors = np.array([[int(i) for i in fprint] for fprint in fprints])
-    
-    # see if bitstrings are equal length, throws IndexError if not equal
-    descriptors.shape[1]
-
-    # ensure only 0's and 1's are present in the fingerprints
-    if len(set(descriptors.flatten()).union(set([1,0]))) != 2:
-        raise BitstringError
-
-    return descriptors
-
 
 class Promiscuity:
-
     """
     A class to compute and return Promiscuity Indicies. Included are
     methods for calculating both the unweighted Promiscuity Index (I),
@@ -120,7 +27,7 @@ class Promiscuity:
 
     def __init__(self, items, data, descriptors=None, min = 1e-6):
         self.items = items
-        # min is the presumeed lower bound of the functional unit
+        # min is the presumed lower bound of the functional unit
         self.data = np.asarray(data) + min
         self.descriptors = descriptors
         if self.descriptors is not None:
@@ -200,6 +107,7 @@ class Promiscuity:
                     a += 1.
         return a / (a+b)
 
+
     def results(self):
         """
         Contructs a dict of promiscuity results for the whole dataset.
@@ -232,9 +140,59 @@ class Promiscuity:
         results.append(['dset', str(self.dset)])
         return results
 
-        
-class BitstringError(Exception):
-    """Exception raised for errors in unequal bitstring lengths."""
 
-class PubChemError(Exception):
-    """Exception raised to catch Pubchem CID or URL problems."""
+#---------------------------------------------------------------------
+#
+# create a couple of examples
+#
+#---------------------------------------------------------------------
+
+def example_one():
+    """
+    Generates a set of sample data for the
+    examples page of the hetaira web tool.
+    """
+    
+    np.random.seed(5)
+    ids = ['Pr'] + list(ascii_lowercase) + ['Sp']
+    
+    # make some data where all activities are the same
+    data = np.ones((26,26))
+    
+    # make some random activites to pull from
+    y = np.random.uniform(1000, 2500, (26,26))
+    
+    # this will replace the ones with numbers from the uniform
+    # distribution, increasing by one at each column
+    # using the upper triangular matrix
+    data[np.triu_indices(26)] = y[np.triu_indices(26)]
+
+    # stack a perfectly promiscuous and a perfectly (almost)
+    # specific column on either side of the data
+    data = np.hstack((np.full((26,1), 1e-10), data, np.ones((26,1))))
+    data[0,0] = 100
+    descriptors = None
+    example = Promiscuity(ids, np.fliplr(data), descriptors)
+    return example.hetaira_results()
+
+
+def example_two():
+    """
+    Generates a set of jackknife analysis data 
+    for the hetaira web tool.
+    """
+    
+    ids = ['PLA', 'PHA', 'Sp']
+    d1 = np.random.uniform(11, 12, (10,1))
+    d2 = np.random.uniform(1000, 2000, (10,1))
+    d3 = np.random.uniform(0.1, 0.3, (10,1))
+    data = np.hstack((d1, d2, d3))
+    data[5,-1] = 100
+    
+    results = []
+    for row in range(data.shape[0]):
+        pr_obj = Promiscuity(ids, np.concatenate((
+            data[:row], data[row+1:]), axis=0), None)
+        results.append(pr_obj.results())
+    return results
+
