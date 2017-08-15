@@ -5,9 +5,9 @@ Users submit a data file containing measures of function and possibly descriptor
 
 Promiscuity Indicies (weighted and unweighted) are calculated and returned along with total set dissimilarity.
 
-Please see the [webpage](https://hetaira.herokuapp.com) and references therein for a full discussion of theory and usage.
+Please see the [webpage](http://hetaira.herokuapp.com) and references therein for a full discussion of theory and usage.
 
-[Try it out](https://hetaira.herokuapp.com)
+[Try it out](http://hetaira.herokuapp.com)
 
 **Local Use** 
 
