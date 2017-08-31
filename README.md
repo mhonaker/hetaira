@@ -1,4 +1,4 @@
-#Hetaira
+# Hetaira
 A web tool for calculating Promiscuity Indicies.
 
 Users submit a data file containing measures of function and possibly descriptor bitstrings. The user may instead submit [PubChem](https://pubchem.ncbi.nlm.nih.gov/) Chemical Identification Codes and hetaira will retrieve the CACTVS bitstring descriptors.
